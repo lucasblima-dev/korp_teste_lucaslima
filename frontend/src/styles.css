@@ -19,3 +19,50 @@ body {
 html.dark body {
   @apply bg-gray-900 text-gray-100;
 }
+
+html.dark {
+  color-scheme: dark;
+}
+
+html.dark .mat-mdc-table,
+html.dark .mat-mdc-paginator {
+  background-color: transparent !important;
+  color: #f3f4f6 !important;
+}
+
+html.dark .mat-mdc-header-cell,
+html.dark .mat-mdc-cell {
+  color: #e5e7eb !important;
+  /* text-gray-200 */
+  border-bottom-color: #374151 !important;
+  /* border-gray-700 */
+}
+
+html.dark .mat-mdc-icon-button {
+  color: #9ca3af !important;
+  /* text-gray-400 */
+}
+
+html.dark .mat-mdc-icon-button:hover {
+  color: #f3f4f6 !important;
+}
+
+html.dark .mdc-text-field--outlined .mdc-notched-outline__leading,
+html.dark .mdc-text-field--outlined .mdc-notched-outline__notch,
+html.dark .mdc-text-field--outlined .mdc-notched-outline__trailing {
+  border-color: #4b5563 !important;
+  /* border-gray-600 */
+}
+
+html.dark .mat-mdc-input-element {
+  color: #f3f4f6 !important;
+}
+
+html.dark .mat-mdc-form-field-icon-prefix {
+  color: #9ca3af !important;
+}
+
+html.dark .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder {
+  color: #6b7280 !important;
+  /* text-gray-500 */
+}
