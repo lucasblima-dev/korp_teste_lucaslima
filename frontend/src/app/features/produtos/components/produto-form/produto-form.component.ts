@@ -58,7 +58,7 @@ import { Produto } from '../../services/produto.service';
             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
               <mat-icon class="text-accent scale-90">auto_awesome</mat-icon>
               Categoria sugerida:
-              <mat-chip class="!bg-purple-100 !text-purple-800 dark:!bg-purple-900 dark:!text-purple-100 font-bold">
+              <mat-chip class="bg-purple-100! text-purple-800! dark:bg-purple-900! dark:text-purple-100! font-bold">
                 {{ categoriaSugerida()!.categoria }}
                 ({{ (categoriaSugerida()!.confianca * 100).toFixed(0) }}%)
               </mat-chip>

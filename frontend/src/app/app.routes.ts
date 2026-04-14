@@ -11,6 +11,10 @@ export const routes: Routes = [
     loadComponent: () => import('./features/produtos/components/produto-list/produto-list.component').then(m => m.ProdutoListComponent)
   },
   {
+    path: 'notas/nova',
+    loadComponent: () => import('./features/notas-fiscais/components/nota-form/nota-form.component').then(m => m.NotaFormComponent)
+  },
+  {
     path: 'notas',
     loadComponent: () => import('./features/notas-fiscais/components/nota-list/nota-list.component').then(m => m.NotaListComponent)
   },
