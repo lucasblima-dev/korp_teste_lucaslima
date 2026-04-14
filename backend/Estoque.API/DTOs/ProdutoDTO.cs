@@ -1,11 +1,10 @@
 using FluentValidation;
 
-namespace Korp.Estoque.API.DTOs;
+namespace Estoque.API.DTOs;
 
 public record CriarProdutoDTO(string Codigo, string Descricao, int Saldo);
 public record AtualizarSaldoDTO(int QuantidadeDebito);
 
-// Regras de Validação com FluentValidation
 public class CriarProdutoValidator : AbstractValidator<CriarProdutoDTO>
 {
   public CriarProdutoValidator()

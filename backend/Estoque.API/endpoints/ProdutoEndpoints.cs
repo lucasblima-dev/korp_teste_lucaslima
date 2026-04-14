@@ -1,9 +1,9 @@
 using FluentValidation;
-using Korp.Estoque.API.Data;
-using Korp.Estoque.API.DTOs;
+using Estoque.API.Data;
+using Estoque.API.DTOs;
 using Microsoft.EntityFrameworkCore;
 
-namespace Korp.Estoque.API.Endpoints;
+namespace Estoque.API.Endpoints;
 
 public static class ProdutoEndpoints
 {

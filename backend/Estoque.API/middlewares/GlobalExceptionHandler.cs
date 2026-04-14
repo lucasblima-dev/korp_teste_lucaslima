@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 
-namespace Korp.Estoque.API.Middlewares;
+namespace Estoque.API.Middlewares;
 
 public class GlobalExceptionHandler : IExceptionHandler
 {

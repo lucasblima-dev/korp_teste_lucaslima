@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
+//using Npgsql.EntityFrameworkCore.PostgreSQL;
 
-namespace Korp.Estoque.API.Data;
+namespace Estoque.API.Data;
 
 public class Produto
 {
