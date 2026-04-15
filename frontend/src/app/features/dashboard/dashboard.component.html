@@ -1,0 +1,38 @@
+<div class="page-container fade-in">
+
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Visão geral do sistema</p>
+    </div>
+    <span class="badge badge-green">
+      <mat-icon style="font-size:0.8rem;width:0.8rem;height:0.8rem;">circle</mat-icon>
+      Online
+    </span>
+  </div>
+
+  <!-- KPI Metric Cards -->
+  <div class="grid-metrics">
+    <app-metric-card icon="inventory_2" label="Produtos" [value]="totalProdutos()" color="blue" />
+    <app-metric-card icon="pending_actions" label="Notas em Aberto" [value]="notasAbertas()" color="yellow" />
+    <app-metric-card icon="task_alt" label="Notas Fechadas" [value]="notasFechadas()" color="green" />
+  </div>
+
+  <!-- Charts + Quick Actions -->
+  <div style="display:grid; gap:1.5rem; grid-template-columns:1fr;">
+    <!-- Revenue Chart (full width on mobile, 2/3 on lg) -->
+    <div style="display:grid; gap:1.5rem; grid-template-columns:1fr;" class="dashboard-main-grid">
+
+      <div class="card" style="grid-column: 1 / -1;">
+        <app-revenue-chart [data]="dadosGrafico()" />
+      </div>
+
+      <div class="card">
+        <app-quick-actions />
+      </div>
+
+    </div>
+  </div>
+
+</div>

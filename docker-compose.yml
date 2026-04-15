@@ -1,0 +1,96 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: ./backend/Gateway
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT_GATEWAY}:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+    depends_on:
+      - estoque-api
+      - faturamento-api
+    networks:
+      - korp-network
+
+  estoque-api:
+    build:
+      context: ./backend/Estoque.API
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=http://+:5001
+      - ConnectionStrings__DefaultConnection=Host=db-estoque;Port=5432;Database=${DB_ESTOQUE_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
+    depends_on:
+      - db-estoque
+    networks:
+      - korp-network
+
+  faturamento-api:
+    build:
+      context: ./backend/Faturamento.API
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ASPNETCORE_URLS=http://+:5002
+      - ConnectionStrings__DefaultConnection=Host=db-faturamento;Port=5432;Database=${DB_FATURAMENTO_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
+      - EstoqueApi__BaseUrl=http://estoque-api:5001
+    depends_on:
+      - db-faturamento
+      - estoque-api
+    networks:
+      - korp-network
+
+  db-estoque:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_ESTOQUE_NAME}
+    volumes:
+      - estoque-data:/var/lib/postgresql/data
+    networks:
+      - korp-network
+
+  db-faturamento:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_FATURAMENTO_NAME}
+    volumes:
+      - faturamento-data:/var/lib/postgresql/data
+    networks:
+      - korp-network
+
+  korp-ai:
+    build:
+      context: ./korp-ai
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT_AI_API}:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN}
+    networks:
+      - korp-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT_FRONTEND}:80"
+    depends_on:
+      - gateway
+    networks:
+      - korp-network
+
+networks:
+  korp-network:
+    driver: bridge
+
+volumes:
+  estoque-data:
+  faturamento-data:

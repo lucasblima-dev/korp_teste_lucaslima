@@ -7,10 +7,6 @@ using Polly.Extensions.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Port=5432;Database=db_faturamento;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<FaturamentoDbContext>(opts => opts.UseNpgsql(connString));
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -33,6 +29,12 @@ builder.Services.AddHttpClient<EstoqueClient>(client =>
 .AddPolicyHandler(circuitBreakerPolicy);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FaturamentoDbContext>();
+    dbContext.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {
