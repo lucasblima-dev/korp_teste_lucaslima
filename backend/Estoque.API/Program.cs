@@ -7,11 +7,6 @@ using Estoque.API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Config do DB
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? "Host=localhost;Port=5432;Database=db_estoque;Username=postgres;Password=postgres";
-builder.Services.AddDbContext<EstoqueDbContext>(opts => opts.UseNpgsql(connectionString));
-
 builder.Services.AddValidatorsFromAssemblyContaining<CriarProdutoValidator>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
@@ -21,6 +16,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Config do DB
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<EstoqueDbContext>();
+    dbContext.Database.Migrate();
+}
 
 app.UseExceptionHandler();
 

@@ -1,1 +1,79 @@
-<p>produto-list works!</p>
+<div class="page-container fade-in">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Catálogo de Produtos</h1>
+      <p class="page-subtitle">Gerencie o inventário e estoque do sistema</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="abrirFormulario()" class="btn-primary">
+      <mat-icon>add</mat-icon> Novo Produto
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="search-wrapper w-full max-w-md">
+        <span class="search-icon">
+          <mat-icon>search</mat-icon>
+        </span>
+        <input type="text" class="input" [formControl]="searchControl" placeholder="Buscar por código ou descrição...">
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="produtos()" class="w-full">
+
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef> Código </th>
+          <td mat-cell *matCellDef="let p" class="font-mono text-xs text-muted"> {{p.codigo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descricao">
+          <th mat-header-cell *matHeaderCellDef> Descrição </th>
+          <td mat-cell *matCellDef="let p" class="font-medium"> {{p.descricao}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="saldo">
+          <th mat-header-cell *matHeaderCellDef> Saldo </th>
+          <td mat-cell *matCellDef="let p">
+            <span class="badge" [ngClass]="{
+                    'badge-green': p.saldo >= 10,
+                    'badge-yellow': p.saldo > 0 && p.saldo < 10,
+                    'badge-red': p.saldo === 0
+                  }">
+              {{p.saldo}} un.
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef class="text-right"> Ações </th>
+          <td mat-cell *matCellDef="let p" class="text-right">
+            <div class="flex justify-end gap-1">
+              <button mat-icon-button class="action-btn edit" (click)="abrirFormulario(p)" title="Editar">
+                <mat-icon>edit_note</mat-icon>
+              </button>
+              <button mat-icon-button class="action-btn delete" title="Excluir">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="colunasExibidas"></tr>
+        <tr mat-row *matRowDef="let row; columns: colunasExibidas;" class="table-row"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" colspan="4">
+            <div class="empty-state">
+              <mat-icon>inventory_2</mat-icon>
+              <p>Nenhum produto encontrado.</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="custom-paginator"></mat-paginator>
+  </div>
+</div>

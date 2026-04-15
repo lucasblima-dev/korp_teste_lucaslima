@@ -1,1 +1,68 @@
-<p>produto-form works!</p>
+<div class="flex flex-col h-full bg-card">
+  <div class="px-6 py-4 border-b border-strong flex items-center justify-between">
+    <h2 class="text-xl font-bold text-primary m-0">
+      {{ data ? 'Editar Produto' : 'Novo Produto' }}
+    </h2>
+    <mat-icon class="text-muted opacity-50">inventory_2</mat-icon>
+  </div>
+
+  <mat-dialog-content class="p-6">
+    <form [formGroup]="form" class="flex flex-col gap-5">
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-secondary">Código do Produto</label>
+          <input type="text" class="input" formControlName="codigo" placeholder="Ex: PRD-001">
+          @if (form.get('codigo')?.touched && form.get('codigo')?.hasError('required')) {
+          <span class="text-xs text-red-500 font-medium">O código é obrigatório</span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-xs font-bold uppercase tracking-wider text-secondary">Saldo em Estoque</label>
+          <input type="number" class="input" formControlName="saldo" placeholder="0">
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold uppercase tracking-wider text-secondary">Descrição Completa</label>
+        <input type="text" class="input" formControlName="descricao" placeholder="Ex: Monitor UltraWide 34'...">
+      </div>
+
+      <div class="h-12 flex items-center">
+        @if (categoriaSugerida()) {
+        <div class="flex items-center gap-3 p-2 rounded-lg bg-primary-light border border-primary/10 w-full fade-in">
+          <mat-icon class="text-accent scale-90">auto_awesome</mat-icon>
+          <div class="flex flex-col">
+            <span class="text-[10px] uppercase font-bold text-accent">Sugestão da IA</span>
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-semibold text-primary">{{ categoriaSugerida()!.categoria }}</span>
+              <span class="badge badge-blue">{{ (categoriaSugerida()!.confianca * 100).toFixed(0) }}% de precisão</span>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+
+      <div class="flex items-center justify-between p-3 rounded-lg bg-main/50 border border-border">
+        <div class="flex flex-col">
+          <span class="text-sm font-bold text-primary">Produto Ativo</span>
+          <span class="text-xs text-muted">Disponível para emissão de notas</span>
+        </div>
+        <mat-slide-toggle formControlName="ativo" color="primary"></mat-slide-toggle>
+      </div>
+
+    </form>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="p-6 border-t border-strong flex gap-3 justify-end">
+    <button mat-button (click)="dialogRef.close()" class="btn-outline border-none text-red-500 hover:bg-red-50">
+      Cancelar
+    </button>
+    <button (click)="salvar()" [disabled]="form.invalid" class="btn-primary px-8 shadow-md"
+      [class.opacity-50]="form.invalid">
+      <mat-icon class="mr-1">check_circle</mat-icon>
+      Salvar Produto
+    </button>
+  </mat-dialog-actions>
+</div>
